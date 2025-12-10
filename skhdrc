@@ -1,0 +1,117 @@
+## internal
+
+fn - w : yabai -m window --close
+
+# Reset yabai and skhd using fn + shift + R
+fn + shift - r : brew services restart skhd; pkill Hyperkey; open -a "Hyperkey"
+fn - r : yabai --restart-service; skhd --reload
+
+fn - r : yabai --restart-service; skhd --reload
+
+# Restart Hyperkey
+ctrl + alt - h : killall Hyperkey; open -a "Hyperkey"
+
+#widow swap
+ctrl + alt + shift + cmd - h : yabai -m window --swap west  || $(yabai -m window --display west; yabai -m display --focus west)
+ctrl + alt + shift + cmd - j : yabai -m window --swap south || $(yabai -m window --display south; yabai -m display --focus south)
+ctrl + alt + shift + cmd - k : yabai -m window --swap north || $(yabai -m window --display north; yabai -m display --focus north)
+ctrl + alt + shift + cmd - l : yabai -m window --swap east  || $(yabai -m window --display east; yabai -m display --focus east)
+#widow focus
+ctrl + alt + cmd - h : yabai -m window --focus west  || yabai -m display --focus west
+ctrl + alt + cmd - j : yabai -m window --focus south || yabai -m display --focus south
+ctrl + alt + cmd - k : yabai -m window --focus north || yabai -m display --focus north
+ctrl + alt + cmd - l : yabai -m window --focus east  || yabai -m display --focus east
+#focus follows mouse
+fn - m : current_state=$(yabai -m config focus_follows_mouse); \
+                  if [ "$current_state" = "disabled" ]; then \
+                    yabai -m config focus_follows_mouse autoraise; \
+                    echo "Focus follows mouse: autoraise" | tee /tmp/yabai_focus_state; \
+                  else \
+                    yabai -m config focus_follows_mouse off; \
+                    echo "Focus follows mouse: off" | tee /tmp/yabai_focus_state; \
+                  fi;
+
+fn - z : bash ~/.scripts/start_or_attach_zapfloor.sh
+fn - y : bash ~/.scripts/start_or_attach_zapfloor.sh
+fn - u : tmux kill-session -t zapfloor
+fn - i : tmux list-sessions | grep -v attached | awk 'BEGIN{FS=":"}{print $1}' | xargs -n 1 tmux kill-session -t || echo No sessions to kill
+
+fn - o : bash ~/.scripts/zenity_select_layout_display.sh
+fn - p : bash ~/.scripts/zenity_select_layout_space.sh
+#fullscreen
+fn - f : yabai -m window --toggle native-fullscreen
+
+# Move across spaces using left right keys 
+ctrl + alt + cmd - left  : yabai -m space --focus prev
+ctrl + alt + cmd - right : yabai -m space --focus next 
+# Move across spaces
+ctrl + alt + cmd - 0x12 : yabai -m space --focus 1
+ctrl + alt + cmd - 0x13 : yabai -m space --focus 2
+ctrl + alt + cmd - 0x14 : yabai -m space --focus 3
+ctrl + alt + cmd - 0x15 : yabai -m space --focus 4
+ctrl + alt + cmd - 0x17 : yabai -m space --focus 5
+ctrl + alt + cmd - 0x16 : yabai -m space --focus 6
+ctrl + alt + cmd - 0x1A : yabai -m space --focus 7
+ctrl + alt + cmd - 0x1C : yabai -m space --focus 8
+ctrl + alt + cmd - 0x19 : yabai -m space --focus 9
+ctrl + alt + cmd - 0x1D : yabai -m space --focus 10
+
+# Move widow acorss spaces using left right keys
+ctrl + alt + shift + cmd - left  : yabai -m window --space prev; yabai -m space --focus prev
+ctrl + alt + shift + cmd - right : yabai -m window --space next; yabai -m space --focus next
+# Move widow acorss spaces 
+ctrl + alt + shift + cmd - 0x12 : yabai -m window --space 1; yabai -m space --focus 1
+ctrl + alt + shift + cmd - 0x13 : yabai -m window --space 2; yabai -m space --focus 2
+ctrl + alt + shift + cmd - 0x14 : yabai -m window --space 3; yabai -m space --focus 3
+ctrl + alt + shift + cmd - 0x15 : yabai -m window --space 4; yabai -m space --focus 4
+ctrl + alt + shift + cmd - 0x17 : yabai -m window --space 5; yabai -m space --focus 5
+ctrl + alt + shift + cmd - 0x16 : yabai -m window --space 6; yabai -m space --focus 6
+ctrl + alt + shift + cmd - 0x1A : yabai -m window --space 7; yabai -m space --focus 7
+ctrl + alt + shift + cmd - 0x1C : yabai -m window --space 8; yabai -m space --focus 8
+ctrl + alt + shift + cmd - 0x19 : yabai -m window --space 9; yabai -m space --focus 9
+ctrl + alt + shift + cmd - 0x1D : yabai -m window --space 9; yabai -m space --focus 10
+
+# Move window to the display below
+ctrl + alt + cmd + shift - down : yabai -m window --display prev; yabai -m display --focus prev
+# Move window to the display above
+ctrl + alt + cmd + shift - up : yabai -m window --display next; yabai -m display --focus next
+
+# Move focus to the display below
+ctrl + alt + cmd - down : yabai -m display --focus prev
+# Move focus to the display above
+ctrl + alt + cmd - up : yabai -m display --focus next
+
+# Swap with adjacent space on the same display
+
+ctrl + alt + shift - left : yabai -m space --swap prev
+ctrl + alt + shift - right : yabai -m space --swap next
+
+# Swap with space on another display
+ctrl + alt + shift - down : yabai -m space --display prev --swap; 
+ctrl + alt + shift - up : yabai -m space --display next --swap; 
+
+## F keys
+
+f13 : yabai -m space --focus 1
+f14 : yabai -m space --focus 2
+f15 : yabai -m space --focus 3
+f16 : yabai -m space --focus 4
+f17 : yabai -m space --focus 5
+f18 : yabai -m space --focus 6
+f19 : yabai -m space --focus 7
+
+shift - f13 : yabai -m window --space 1; yabai -m space --focus 1
+shift - f14 : yabai -m window --space 2; yabai -m space --focus 2
+shift - f15 : yabai -m window --space 3; yabai -m space --focus 3
+shift - f16 : yabai -m window --space 4; yabai -m space --focus 4
+shift - f17 : yabai -m window --space 5; yabai -m space --focus 5
+shift - f18 : yabai -m window --space 6; yabai -m space --focus 6
+shift - f19 : yabai -m window --space 7; yabai -m space --focus 7
+
+shift + ctrl - f13 : yabai -m window --space 1
+shift + ctrl - f14 : yabai -m window --space 2
+shift + ctrl - f15 : yabai -m window --space 3
+shift + ctrl - f16 : yabai -m window --space 4
+shift + ctrl - f17 : yabai -m window --space 5
+shift + ctrl - f18 : yabai -m window --space 6
+shift + ctrl - f19 : yabai -m window --space 7
